@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>BuscaTronics</title>
+    {% load static %}
+    <link rel="stylesheet" href="{% static 'website/styles/screen.css' %}">
+</head>
+<body>
+    <div id="header">
+        <img class="logo" src="{% static 'website/images/logo.png' %}">
+        <form class="search" action="{% url 'index' %}" method="get">
+           <input type="text" name="q" value="{{ filter }}">
+           <button type="submit">Pesquisar</button>
+        </form>
+    </div>
+    <div id="categories">
+        <ul>
+            <li><a href="{% url 'index' %}">Tudo</a></li>
+            {% for category in categories %}
+            <li><a href="{% url 'categories' category.id %}">{{ category.nome }}</a></li>
+            {% endfor %}
+        </ul>
+    </div>
+    <h1>{{ title }}</h1>
+    {% block main %}{% endblock %}
+</body>
+</html>

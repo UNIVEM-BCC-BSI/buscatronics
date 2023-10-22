@@ -1,0 +1,15 @@
+{% extends "website/master.html" %}
+{% load html_formatters %}
+{% block main %}
+<div id="productgrid">
+    {% for product in products %}
+    <div class="product">
+        <!-- lógica para incluir a imagem -->
+        <a href="{{ product.link }}" target="_blank">{{ product.nome }}</a>
+        <p>{{ product.precoTotal|currency_real }}</p>
+        <p>{{ product.loja }}</p>
+        <!-- lógica para preço com desconto quando tiver -->
+    </div>
+    {% endfor %}
+</div>
+{% endblock %}
