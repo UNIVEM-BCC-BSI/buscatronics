@@ -7,6 +7,7 @@ from rest_framework.response import Response
 
 from api.scrappers.Lojas.KabumScrapper import KabumScrapper
 from api.scrappers.Lojas.TerabyteScrapper import TerabyteScrapper
+from api.scrappers.Funcoes.JsonSorter import JsonSorter
 
 # Global variables
 driverName = "firefox"
@@ -20,14 +21,17 @@ def kabum_list(request, format=None):
 
     elif request.method == 'POST':
         data = get_plataforma_loja("Kabum")
-        scrapperResponse = KabumScrapper(driverName, data).manager()
+        scrapperResponse = JsonSorter(KabumScrapper(driverName, data).manager())
 
-        serializer = ProdutoSerializer(data=scrapperResponse, many=True)
-        if serializer.is_valid():
-            serializer.save()
-            return Response(serializer.data, status=status.HTTP_201_CREATED)
-        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
-    
+        for x in scrapperResponse:
+            try:
+                serializer = ProdutoSerializer(data=x, many=True)
+                if serializer.is_valid():
+                    serializer.save()
+            except Exception as e:
+                return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+        return Response(serializer.data, status=status.HTTP_201_CREATED)
+
 @api_view(['GET', 'POST'])
 def terabyte_list(request, format=None):
     if request.method == 'GET':
@@ -37,14 +41,17 @@ def terabyte_list(request, format=None):
 
     elif request.method == 'POST':
         data = get_plataforma_loja("Terabyte")
-        scrapperResponse = TerabyteScrapper(driverName, data).manager()
+        scrapperResponse = JsonSorter(TerabyteScrapper(driverName, data).manager())
 
-        serializer = ProdutoSerializer(data=scrapperResponse, many=True)
-        if serializer.is_valid():
-            serializer.save()
-            return Response(serializer.data, status=status.HTTP_201_CREATED)
-        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
-    
+        for x in scrapperResponse:
+            try:
+                serializer = ProdutoSerializer(data=scrapperResponse, many=True)
+                if serializer.is_valid():
+                    serializer.save()
+            except Exception as e:
+                return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+        return Response(serializer.data, status=status.HTTP_201_CREATED)
+
 @api_view(['GET', 'POST'])
 def plataforma_e_loja(request, format=None):
     if request.method == 'GET':
