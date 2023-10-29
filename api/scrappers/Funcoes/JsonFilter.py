@@ -1,12 +1,3 @@
-from NewAmericanas import game_items_list_americanas
-from NewBuscape import game_items_list_buscape
-from NewCasasBahia import game_items_list_casasbahia
-from NewKabum import game_items_list_kabum
-from NewMagalu import game_items_list_magalu
-from NewSubmarino import game_items_list_submarino
-from NewTerabyte import game_items_list_terabyte
-from NewZoom import game_items_list_zoom
-
 class JsonFilter():
     def __init__(self, json):
         self.games_ps2 = []
@@ -646,66 +637,3 @@ class JsonFilter():
                 print(x)
         except:
             pass
-
-try:
-    americanas_temp_json_filtered = JsonFilter(game_items_list_americanas)
-    americanas_temp_json_filtered.sorter()
-    americanas_json_filtered = americanas_temp_json_filtered.new_game_items_list_teste
-
-    print('/' * 50)
-    print('/' * 50)
-    print('/' * 50)
-
-    buscape_temp_json_filtered = JsonFilter(game_items_list_buscape)
-    buscape_temp_json_filtered.sorter()
-    buscape_json_filtered = buscape_temp_json_filtered.new_game_items_list_teste
-
-    print('/' * 50)
-    print('/' * 50)
-    print('/' * 50)
-
-    casasbahia_temp_json_filtered = JsonFilter(game_items_list_casasbahia)
-    casasbahia_temp_json_filtered.sorter()
-    casasbahia_json_filtered = casasbahia_temp_json_filtered.new_game_items_list_teste
-
-    print('/' * 50)
-    print('/' * 50)
-    print('/' * 50)
-
-    kabum_temp_json_filtered = JsonFilter(game_items_list_kabum)
-    kabum_temp_json_filtered.sorter()
-    kabum_json_filtered = kabum_temp_json_filtered.new_game_items_list_teste
-
-    print('/' * 50)
-    print('/' * 50)
-    print('/' * 50)
-
-    magalu_temp_json_filtered = JsonFilter(game_items_list_magalu)
-    magalu_temp_json_filtered.sorter()
-    magalu_json_filtered = magalu_temp_json_filtered.new_game_items_list_teste
-
-    print('/' * 50)
-    print('/' * 50)
-    print('/' * 50)
-
-    submarino_temp_json_filtered = JsonFilter(game_items_list_submarino)
-    submarino_temp_json_filtered.sorter()
-    submarino_json_filtered = submarino_temp_json_filtered.new_game_items_list_teste
-
-    print('/' * 50)
-    print('/' * 50)
-    print('/' * 50)
-
-    terabyte_temp_json_filtered = JsonFilter(game_items_list_terabyte)
-    terabyte_temp_json_filtered.sorter()
-    terabyte_json_filtered = terabyte_temp_json_filtered.new_game_items_list_teste
-
-    print('/' * 50)
-    print('/' * 50)
-    print('/' * 50)
-
-    zoom_temp_json_filtered = JsonFilter(game_items_list_zoom)
-    zoom_temp_json_filtered.sorter()
-    zoom_json_filtered = zoom_temp_json_filtered.new_game_items_list_teste
-except:
-    pass

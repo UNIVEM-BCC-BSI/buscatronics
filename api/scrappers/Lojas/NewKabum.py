@@ -2,7 +2,7 @@ import json, requests
 from bs4 import BeautifulSoup
 from lxml import etree
 
-class Kabum():
+class KabumScrapper():
     def __init__(self) -> None:
         self.items_found = []
         self.urls = {
@@ -18,7 +18,7 @@ class Kabum():
             "totalItensColetados": 0
         }
     
-    def Kabum_Scrapper(self):
+    def manager(self):
 
         try:
             for plataforma in self.urls:
@@ -70,7 +70,6 @@ class Kabum():
                         })
                     
                     self.urls[plataforma] = self.urls[plataforma].replace(f"page_number={page + 1}", f"page_number={page + 2}")
-                    print(self.urls[plataforma])
                     webpage = requests.get(self.urls[plataforma])
                     soup = BeautifulSoup(webpage.text, "html.parser")
                     dom = etree.HTML(str(soup))
@@ -82,12 +81,3 @@ class Kabum():
             print(f'\033[96m{json.dumps(self.registro, indent=4)}\033[00m')
             return self.items_found
 
-try:
-    kabum = Kabum()
-    kabum.Kabum_Scrapper()
-    game_items_list_kabum = kabum.items_found
-
-    for x in game_items_list_kabum:
-        print(x)
-except:
-    pass
