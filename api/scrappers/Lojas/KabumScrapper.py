@@ -1,7 +1,7 @@
 import json, requests
 from api.scrappers.WebDrivers.AllDrivers import *
 from bs4 import BeautifulSoup
-from lxml import etree
+from lxml import etree, html
 
 class KabumScrapper():
     def __init__(self, driverName, data) -> None:
@@ -20,7 +20,8 @@ class KabumScrapper():
             "precoTotalNaoEncontrado": 0,
             "precoDescontoNaoEncontrado": 0,
             "totalItensEncontrados": 0,
-            "totalItensColetados": 0
+            "totalItensColetados": 0,
+            "imagemNaoEncontrada": 0
         }
     
     def manager(self):
@@ -51,26 +52,36 @@ class KabumScrapper():
                             continue
 
                         precoTotal, precoDesconto = 0, 0
-                        link = ""
+                        link, imagem = "", ""
 
-                        try:
-                            precoTotal = float(dom2.xpath(".//span[contains(@class, 'priceCard')]")[0].text.replace("R$", "").replace(".", "").replace(",", ".").strip())
-                        except Exception as e:
-                            self.registro["precoTotalNaoEncontrado"] += 1
-                            pass
-
-                        try:
-                            precoDesconto = float(dom2.xpath(".//span[contains(@class, 'oldPriceCard')]")[0].text.replace("R$", "").replace(".", "").replace(",", ".").strip())
-                        except Exception as e:
-                            self.registro["precoDescontoNaoEncontrado"] += 1
-                            pass
-                        
                         try:
                             href = dom2.xpath('//a[contains(@class, "productLink")]')[0].get('href')
                             link = f'https://www.kabum.com.br{href}'
                         except Exception as e:
                             continue
 
+                        try:
+                            print(dom2.xpath('//span[contains(text(), "R$")]'))
+
+                            precoTotal = float(dom2.xpath(".//span[contains(@class, 'oldPriceCard')]")[0].text.replace("R$", "").replace(".", "").replace(",", ".").strip())
+                        except Exception as e:
+                            self.registro["precoTotalNaoEncontrado"] += 1
+                            pass
+
+                        try:
+                            # print(dom2.xpath(".//span[contains(@class, 'priceCard')]"))
+                            precoDesconto = float(dom2.xpath(".//span[contains(@class, 'priceCard')]")[0].text.replace("R$", "").replace(".", "").replace(",", ".").strip())
+                        except Exception as e:
+                            self.registro["precoDescontoNaoEncontrado"] += 1
+                            pass
+
+                        try:
+                            imagem = dom2.xpath(".//img[contains(@class, 'imageCard')]")[0].get("src")
+                        except Exception as e:
+                            self.registro["imagemNaoEncontrada"] += 1
+                            pass
+                        
+                        
                         self.items_found.append({
                             "nome": dom2.xpath("//button/div/h2/span")[0].text,
                             "precoTotal": precoTotal,
@@ -78,7 +89,8 @@ class KabumScrapper():
                             "loja": self.loja,
                             "plataforma": next(p["id"] for p in self.plataforma if p["nome"] == platf),
                             "midia": 1,
-                            "link": link
+                            "link": link,
+                            "linkImagem": imagem
                         })
                     
                     self.urls[platf] = self.urls[platf].replace(f"page_number={page + 1}", f"page_number={page + 2}")

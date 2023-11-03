@@ -47,14 +47,16 @@
                 <div class="product-item bg-light mb-4">
                     <a href="{{ product.link }}" target="_blank">
                         <div class="product-img position-relative overflow-hidden">
-                            <img class="img-fluid w-100" src="{% static 'website/images/product-6.jpg' %}" alt="{{ product.name }}">
+                            <img class="img-fluid w-100" src="{{ product.linkImagem }}" onerror="this.onerror=null; this.src='..images/white-square.jpg'">
                         </div>
                         <div class="text-center py-4">
-                            <!-- <a class="h6 text-decoration-none text-line" href="{{ product.link }}" target="_blank">{{ product.nome }}</a> -->
                             <p class="h6 text-decoration-none text-line">{{ product.nome }}</p>
                             <div class="d-flex align-items-center justify-content-center mt-2">
-                                <h5>{{ product.precoTotal|currency_real }}</h5><h6 class="text-muted ml-2"><del>{{ product.precoDesconto|currency_real }}</del></h6>
-                                <!-- mostrar o preço total apenas se não houver preço com desconto -->
+                                {% if product.precoDesconto != 0 %}
+                                    <h5>{{ product.precoDesconto|currency_real }}</h5><h6 class="text-muted ml-2"><del>{{ product.precoTotal|currency_real }}</del></h6>
+                                {% else %}
+                                    <h5>{{ product.precoTotal|currency_real }}</h5><h6 class="text-muted ml-2"><del></del></h6>
+                                {% endif %}
                             </div>
                             <div class="d-flex align-items-center justify-content-center mb-1">
                                 <p class="h6 text-decoration-none text-line">{{ product.loja }}</p>
@@ -64,6 +66,25 @@
                 </div>
             </div>
         {% endfor %}
+        <div class="col-12">
+            <nav>
+              <ul class="pagination justify-content-center">
+                {% if page_obj.has_previous %}
+                    <li class="page-item"><a class="page-link" href="?page={{ page_obj.previous_page_number }}">Anterior</span></a></li>
+                {% else %}
+                    <li class="page-item disabled"><a class="page-link" href="#">Anterior</span></a></li>
+                {% endif %}
+                    
+                <li class="page-item active"><a class="page-link" href="#">Página {{ page_obj.number }} de {{ page_obj.paginator.num_pages }}</a></li>
+                    
+                {% if page_obj.has_next %}
+                    <li class="page-item"><a class="page-link" href="?page={{ page_obj.next_page_number }}">Próximo</a></li>
+                {% else %}
+                    <li class="page-item disabled"><a class="page-link" href="#">Próximo</span></a></li>
+                {% endif %}
+              </ul>
+            </nav>
+        </div>
     </div>
 </div>
 {% endblock %}

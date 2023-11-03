@@ -23,6 +23,7 @@ from api.scrappers.Funcoes.JsonSorter import JsonSorter
 
 # Global variables
 driverName = "chrome"
+retorno = []
 
 @api_view(['GET', 'POST'])
 def kabum_list(request, format=None):
@@ -34,15 +35,20 @@ def kabum_list(request, format=None):
     elif request.method == 'POST':
         data = get_plataforma_loja("Kabum")
         scrapperResponse = JsonSorter(JsonFilter(KabumScrapper(driverName, data).manager()).sorter())
+        print("Comprimento da lista da kabum >> ", len(scrapperResponse))
 
         for x in scrapperResponse:
             try:
                 serializer = ProdutoSerializer(data=x, many=True)
                 if serializer.is_valid():
+                    raise Exception
                     serializer.save()
+                    retorno.append(serializer.data)
+                else:
+                    return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
             except Exception as e:
-                return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
-        return Response(serializer.data, status=status.HTTP_201_CREATED)
+                print(e)
+        return Response(retorno, status=status.HTTP_201_CREATED)
 
 @api_view(['GET', 'POST'])
 def terabyte_list(request, format=None):
@@ -60,9 +66,10 @@ def terabyte_list(request, format=None):
                 serializer = ProdutoSerializer(data=x, many=True)
                 if serializer.is_valid():
                     serializer.save()
+                    retorno.append(serializer.data)
             except Exception as e:
                 return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
-        return Response(serializer.data, status=status.HTTP_201_CREATED)
+        return Response(retorno, status=status.HTTP_201_CREATED)
     
 @api_view(['GET', 'POST'])
 def americanas_list(request, format=None):

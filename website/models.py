@@ -10,13 +10,13 @@ class Plataforma(models.Model):
     nome = models.CharField(max_length=30)
 
     def __str__(self):
-        return f"{self.nome} ({self.id})"
+        return f"{self.nome}"
 
 class Loja(models.Model):
     nome = models.CharField(max_length=50)
 
     def __str__(self):
-        return f"{self.nome} ({self.id})"
+        return f"{self.nome}"
     
 class Produto(models.Model):
     nome = models.CharField(max_length=255)
@@ -26,6 +26,7 @@ class Produto(models.Model):
     plataforma = models.ForeignKey(Plataforma, on_delete=models.CASCADE)
     midia = models.IntegerField(default=Midia.FISICO, choices=Midia.choices)
     link = models.CharField(max_length=350)
+    linkImagem = models.CharField(max_length=500, blank=True, null=True)
 
     def __str__(self):
         return f"{self.nome} ({self.id})"

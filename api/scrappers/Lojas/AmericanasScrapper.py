@@ -55,7 +55,6 @@ class AmericanasScrapper():
                 self.page = 0
 
                 while True:
-                    print(f'Pagina:     {self.page + 1}\nPlataforma: {self.urls_plataforma[self.url_index]}')
                     try:
                         site = self.ReabrirDriver(self.urls[self.url_index], self.page * 24)
                     except:

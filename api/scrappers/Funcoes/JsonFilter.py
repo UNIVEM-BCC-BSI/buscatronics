@@ -1,5 +1,9 @@
+import json
+from website.models import *
+from website.serializers import *
+
 class JsonFilter():
-    def __init__(self, json):
+    def __init__(self, jsonRequest):
         self.games_ps2 = []
         self.games_ps3 = []
         self.games_ps4 = []
@@ -11,7 +15,8 @@ class JsonFilter():
         self.games_xbox_one = []
         self.games_xbox_series_x = []
         self.new_game_items_list_teste = []
-        self.game_items_list_magalu = json
+        self.game_items_list_magalu = jsonRequest
+        self.plataforma = json.loads(json.dumps(PlataformaSerializer(Plataforma.objects.all(), many=True).data))
 
     def sorter(self):
         try:
@@ -570,70 +575,70 @@ class JsonFilter():
             #//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////#
             #//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////#
 
-            print()
-            print('XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX')
-            print()
+            # print()
+            # print('XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX')
+            # print()
 
-            print(len(self.game_items_list_magalu))
-            print(len(self.games_ps2))
-            print(len(self.games_ps3))
-            print(len(self.games_ps4))
-            print(len(self.games_ps5))
-            print(len(self.games_wii))
-            print(len(self.games_wii_u))
-            print(len(self.games_switch))
-            print(len(self.games_xbox_360))
-            print(len(self.games_xbox_one))
-            print(len(self.games_xbox_series_x))
+            # print(len(self.game_items_list_magalu))
+            # print(len(self.games_ps2))
+            # print(len(self.games_ps3))
+            # print(len(self.games_ps4))
+            # print(len(self.games_ps5))
+            # print(len(self.games_wii))
+            # print(len(self.games_wii_u))
+            # print(len(self.games_switch))
+            # print(len(self.games_xbox_360))
+            # print(len(self.games_xbox_one))
+            # print(len(self.games_xbox_series_x))
 
-            print()
-            print('XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX')
-            print()
+            # print()
+            # print('XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX')
+            # print()
 
             for x in self.games_ps2:
                 self.new_game_items_list_teste.append(x.copy())
-                self.new_game_items_list_teste[self.new_game_items_list_teste.index(x)].update({'plataforma': 'PlayStation'})
+                self.new_game_items_list_teste[self.new_game_items_list_teste.index(x)].update({'plataforma': next(p["id"] for p in self.plataforma if p["nome"] == "PlayStation")})
 
             for x in self.games_ps3:
                 self.new_game_items_list_teste.append(x.copy())
-                self.new_game_items_list_teste[self.new_game_items_list_teste.index(x)].update({'plataforma': 'PlayStation'})
+                self.new_game_items_list_teste[self.new_game_items_list_teste.index(x)].update({'plataforma': next(p["id"] for p in self.plataforma if p["nome"] == "PlayStation")})
 
             for x in self.games_ps4:
                 self.new_game_items_list_teste.append(x.copy())
-                self.new_game_items_list_teste[self.new_game_items_list_teste.index(x)].update({'plataforma': 'PlayStation'})
+                self.new_game_items_list_teste[self.new_game_items_list_teste.index(x)].update({'plataforma': next(p["id"] for p in self.plataforma if p["nome"] == "PlayStation")})
 
             for x in self.games_ps5:
                 self.new_game_items_list_teste.append(x.copy())
-                self.new_game_items_list_teste[self.new_game_items_list_teste.index(x)].update({'plataforma': 'PlayStation'})
+                self.new_game_items_list_teste[self.new_game_items_list_teste.index(x)].update({'plataforma': next(p["id"] for p in self.plataforma if p["nome"] == "PlayStation")})
 
             for x in self.games_wii:
                 self.new_game_items_list_teste.append(x.copy())
-                self.new_game_items_list_teste[self.new_game_items_list_teste.index(x)].update({'plataforma': 'Nintendo'})
+                self.new_game_items_list_teste[self.new_game_items_list_teste.index(x)].update({'plataforma': next(p["id"] for p in self.plataforma if p["nome"] == "Nintendo")})
 
             for x in self.games_wii_u:
                 self.new_game_items_list_teste.append(x.copy())
-                self.new_game_items_list_teste[self.new_game_items_list_teste.index(x)].update({'plataforma': 'Nintendo'})
+                self.new_game_items_list_teste[self.new_game_items_list_teste.index(x)].update({'plataforma': next(p["id"] for p in self.plataforma if p["nome"] == "Nintendo")})
 
             for x in self.games_switch:
                 self.new_game_items_list_teste.append(x.copy())
-                self.new_game_items_list_teste[self.new_game_items_list_teste.index(x)].update({'plataforma': 'Nintendo'})
+                self.new_game_items_list_teste[self.new_game_items_list_teste.index(x)].update({'plataforma': next(p["id"] for p in self.plataforma if p["nome"] == "Nintendo")})
 
             for x in self.games_xbox_360:
                 self.new_game_items_list_teste.append(x.copy())
-                self.new_game_items_list_teste[self.new_game_items_list_teste.index(x)].update({'plataforma': 'Xbox'})
+                self.new_game_items_list_teste[self.new_game_items_list_teste.index(x)].update({'plataforma': next(p["id"] for p in self.plataforma if p["nome"] == "Xbox")})
 
             for x in self.games_xbox_one:
                 self.new_game_items_list_teste.append(x.copy())
-                self.new_game_items_list_teste[self.new_game_items_list_teste.index(x)].update({'plataforma': 'Xbox'})
+                self.new_game_items_list_teste[self.new_game_items_list_teste.index(x)].update({'plataforma': next(p["id"] for p in self.plataforma if p["nome"] == "Xbox")})
 
             for x in self.games_xbox_series_x:
                 self.new_game_items_list_teste.append(x.copy())
-                self.new_game_items_list_teste[self.new_game_items_list_teste.index(x)].update({'plataforma': 'Xbox'})
+                self.new_game_items_list_teste[self.new_game_items_list_teste.index(x)].update({'plataforma': next(p["id"] for p in self.plataforma if p["nome"] == "Xbox")})
 
             for x in self.new_game_items_list_teste:
                 self.new_game_items_list_teste[self.new_game_items_list_teste.index(x)]['nome'] = x['nome'].title()
-
-            for x in self.new_game_items_list_teste:
-                print(x)
-        except:
+        except Exception as e:
             pass
+        finally:
+            return self.new_game_items_list_teste
+        

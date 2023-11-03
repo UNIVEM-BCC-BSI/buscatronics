@@ -2,7 +2,7 @@ import json
 from api.scrappers.WebDrivers.AllDrivers import *
 
 from bs4 import BeautifulSoup
-from lxml import etree
+from lxml import etree, html
 
 class TerabyteScrapper():
     def __init__(self, driverName, data) -> None:
@@ -24,7 +24,8 @@ class TerabyteScrapper():
             "precoTotalNaoEncontrado": 0,
             "precoDescontoNaoEncontrado": 0,
             "totalItensEncontrados": 0,
-            "totalItensColetados": 0
+            "totalItensColetados": 0,
+            "imagemNaoEncontrada": 0,
         }
 
     def manager(self):
@@ -47,6 +48,7 @@ class TerabyteScrapper():
                 dom = etree.HTML(str(div))
                 nome = div.find(class_="prod-name").get("title")
                 precoTotal, precoDesconto = 0, 0
+                imagem = ""
 
                 try:
                     precoTotal = float(dom.xpath(".//div[@class='prod-old-price']/del/span")[0].text.replace("R$", "").replace(".", "").replace(",", ".").strip())
@@ -60,6 +62,12 @@ class TerabyteScrapper():
                     self.registro["precoDescontoNaoEncontrado"] += 1
                     pass
 
+                try:
+                    imagem = dom.xpath(".//div[contains(@class, 'commerce_columns_item_image text-center')]/img")[0].get('src')
+                except Exception as e:
+                    self.registro["imagemNaoEncontrada"] += 1
+                    pass
+
                 self.items_found.append({
                     "nome": nome,
                     "precoTotal": precoTotal,
@@ -67,7 +75,8 @@ class TerabyteScrapper():
                     "loja": self.loja,
                     "plataforma": next(p["id"] for p in self.plataforma if p["nome"] == self.plataformas[nome.split()[-1].strip()]),
                     "midia": 1,
-                    "link": div.find(class_="prod-name").get("href")
+                    "link": div.find(class_="prod-name").get("href"),
+                    "linkImagem": imagem
                 })
 
         except Exception as e:
