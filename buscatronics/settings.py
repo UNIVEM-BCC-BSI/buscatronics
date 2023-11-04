@@ -11,15 +11,18 @@ load_dotenv()
 SECRET_KEY = os.environ.get('SECRET-KEY', default='django-insecure-#1zp70t7pf@o7s!rnb_30cay%kf^9xh1$-!!-%-1gkuxo#sls@')
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = 'RENDER' not in os.environ
+# DEBUG = 'RENDER' not in os.environ
+DEBUG = False
 
 ALLOWED_HOSTS = [
     "127.0.0.1",
+    ".vercel.app",
+    "onrender.com"
 ]
 
-RENDER_EXTERNAL_HOSTNAME = os.environ.get('RENDER_EXTERNAL_HOSTNAME')
-if RENDER_EXTERNAL_HOSTNAME:
-    ALLOWED_HOSTS.append(RENDER_EXTERNAL_HOSTNAME)
+# RENDER_EXTERNAL_HOSTNAME = os.environ.get('RENDER_EXTERNAL_HOSTNAME')
+# if RENDER_EXTERNAL_HOSTNAME:
+#     ALLOWED_HOSTS.append(RENDER_EXTERNAL_HOSTNAME)
 
 # Application definition
 
@@ -64,7 +67,8 @@ TEMPLATES = [
     },
 ]
 
-WSGI_APPLICATION = 'buscatronics.wsgi.application'
+# WSGI_APPLICATION = 'buscatronics.wsgi.application'
+WSGI_APPLICATION = 'buscatronics.wsgi.app'
 
 
 # Database
