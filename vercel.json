@@ -1,0 +1,14 @@
+{
+    "builds": [
+      {
+        "src": "buscatronics/wsgi.py",
+        "use": "@vercel/python"
+      }
+    ],
+    "routes": [
+      {
+        "src": "/(.*)",
+        "dest": "buscatronics/wsgi.py"
+      }
+    ]
+}
