@@ -35,13 +35,11 @@ def kabum_list(request, format=None):
     elif request.method == 'POST':
         data = get_plataforma_loja("Kabum")
         scrapperResponse = JsonSorter(JsonFilter(KabumScrapper(driverName, data).manager()).sorter())
-        print("Comprimento da lista da kabum >> ", len(scrapperResponse))
 
         for x in scrapperResponse:
             try:
                 serializer = ProdutoSerializer(data=x, many=True)
                 if serializer.is_valid():
-                    raise Exception
                     serializer.save()
                     retorno.append(serializer.data)
                 else:

@@ -24,7 +24,7 @@ class IndexView(TemplateView):
             title = next(c.nome for c in categories if c.id == id)
             products = Produto.objects.filter(plataforma_id=id).order_by("precoTotal")
         
-        paginator = Paginator(products, 50)
+        paginator = Paginator(products, 250)
         page_product_obj = paginator.get_page(page_number)
         
         context = {

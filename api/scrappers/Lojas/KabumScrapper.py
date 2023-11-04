@@ -2,6 +2,7 @@ import json, requests
 from api.scrappers.WebDrivers.AllDrivers import *
 from bs4 import BeautifulSoup
 from lxml import etree, html
+from ..WebDrivers.AllDrivers import *
 
 class KabumScrapper():
     def __init__(self, driverName, data) -> None:
@@ -28,9 +29,11 @@ class KabumScrapper():
         self.time.showTime()
 
         try:
+            driver = DriverClass(self.driverName).manager()
             for platf in self.urls:
-                webpage = requests.get(self.urls[platf])
-                soup = BeautifulSoup(webpage.text, "html.parser")
+                # webpage = requests.get(self.urls[platf])
+                driver.get(self.urls[platf])
+                soup = BeautifulSoup(driver.page_source, "html.parser")
                 dom = etree.HTML(str(soup))
 
                 totalItens = int(dom.xpath("//div[contains(@id, 'listingCount')]/b")[0].text)
@@ -61,15 +64,12 @@ class KabumScrapper():
                             continue
 
                         try:
-                            print(dom2.xpath('//span[contains(text(), "R$")]'))
-
                             precoTotal = float(dom2.xpath(".//span[contains(@class, 'oldPriceCard')]")[0].text.replace("R$", "").replace(".", "").replace(",", ".").strip())
                         except Exception as e:
                             self.registro["precoTotalNaoEncontrado"] += 1
                             pass
 
                         try:
-                            # print(dom2.xpath(".//span[contains(@class, 'priceCard')]"))
                             precoDesconto = float(dom2.xpath(".//span[contains(@class, 'priceCard')]")[0].text.replace("R$", "").replace(".", "").replace(",", ".").strip())
                         except Exception as e:
                             self.registro["precoDescontoNaoEncontrado"] += 1
@@ -94,13 +94,15 @@ class KabumScrapper():
                         })
                     
                     self.urls[platf] = self.urls[platf].replace(f"page_number={page + 1}", f"page_number={page + 2}")
-                    webpage = requests.get(self.urls[platf])
-                    soup = BeautifulSoup(webpage.text, "html.parser")
+                    # webpage = requests.get(self.urls[platf])
+                    driver.get(self.urls[platf])
+                    soup = BeautifulSoup(driver.page_source, "html.parser")
                     dom = etree.HTML(str(soup))
 
         except Exception as e:
             print(e)
         finally:
+            driver.quit()
             self.registro["totalItensColetados"] = len(self.items_found)
             print(f'\033[96m{json.dumps(self.registro, indent=4)}\033[00m')
             self.time.showTime()
