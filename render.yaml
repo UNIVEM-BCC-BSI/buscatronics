@@ -10,7 +10,7 @@ services:
     buildCommand: "./build.sh"
     startCommand: "gunicorn buscatronics.wsgi:application"
     envVars:
-      - key: DATABASE_URL
+      - key: DATABASE_HOST
         fromDatabase:
           name: buscatronics
           property: connectionString
