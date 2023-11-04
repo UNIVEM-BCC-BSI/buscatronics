@@ -64,8 +64,7 @@ TEMPLATES = [
     },
 ]
 
-# WSGI_APPLICATION = 'buscatronics.wsgi.application'
-WSGI_APPLICATION = 'buscatronics.wsgi.app'
+WSGI_APPLICATION = 'buscatronics.wsgi.application'
 
 
 # Database
