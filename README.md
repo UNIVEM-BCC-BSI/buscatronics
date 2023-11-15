@@ -14,6 +14,7 @@ João Henrique Guimarães da Silva <br />
 Nikolas Dalton Perasolli Varella <br />
 
 [BuscaTronics - Website](https://buscatronics.onrender.com) <br />
+[BuscaTronics - Pitch](https://youtu.be/27_5qW8Pn_4) <br />
 [BuscaTronics - MVP](https://github.com/UNIVEM-BCC-BSI/buscatronics/files/13335000/MVP.BuscaTronics.odp) <br />
 [BuscaTronics - Cronograma](https://github.com/UNIVEM-BCC-BSI/buscatronics/files/13335008/BuscaTronics.-.Cronograma.xlsx) <br />
 [BuscaTronics - Matriz de habilidades](https://github.com/UNIVEM-BCC-BSI/buscatronics/files/13335009/BuscaTronics.-.Matriz.de.habilidades.xlsx) <br />
